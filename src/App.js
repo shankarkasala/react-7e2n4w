@@ -1,35 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
-
+import axios from 'axios';
 export default function App() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const handelSubmit = (e) => {
     e.preventDefault();
-    let res = fetch('https://jsonplaceholder.typicode.com/users', {
-      method: 'POST',
-      body: JSON.stringify({
-        id: Math.random() * 1000,
-        name: name,
-        email: email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => console.log('respone submited'));
+    let data = {
+      name: e.target.name.value,
+      email: e.target.email.value,
+    };
+    axios
+      .post('https://jsonplaceholder.typicode.com/users', data)
+      .then((res) => console.log(res.data));
   };
   return (
     <div>
       <form onSubmit={handelSubmit}>
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          // onChange={(e) => setName(e.target.value)}
         />
         <br />
         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          name="email"
+          // onChange={(e) => setEmail(e.target.value)}
         />
         <button type="submit">submit</button>
       </form>
